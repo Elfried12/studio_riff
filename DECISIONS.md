@@ -7,3 +7,12 @@ migrations en fichiers .sql versionnés.
 **Conséquences** : + le SQL est visible et maîtrisé, aucune magie ; + pas de
 dépendance lourde. − mapping lignes → objets écrit à la main ; − pas de typage
 automatique des requêtes.
+
+## Interprétations des règles
+- « Entre 10 h et 23 h » : le créneau entier tient dans [10 h, 23 h] UTC, le même jour.
+  Le dernier début possible est donc 22 h pour 1 h (cohérent avec les 13 créneaux du script de charge).
+- « À venir » : statut confirmed et début strictement après l'heure actuelle.
+- Exactement 24 h avant le début, l'annulation n'est pas tardive (« moins de 24 h »).
+- Une réservation dans le passé est refusée (400 SLOT_IN_PAST).
+- Codes HTTP : règle de forme (créneau) → 400 ; conflit avec l'état (chevauchement,
+  maintenance, limite, double annulation) → 409.

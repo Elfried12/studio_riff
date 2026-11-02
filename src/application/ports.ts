@@ -41,8 +41,15 @@ export interface UnitOfWork {
   run<T>(work: (repos: Repositories) => Promise<T>): Promise<T>;
 }
 
+export interface CacheLookup {
+  /** Planning trouvé en cache, ou null */
+  bookings: Booking[] | null;
+  /** Jeton opaque à repasser à store() ; null si le cache est indisponible */
+  token: string | null;
+}
+
 export interface ScheduleCache {
-  get(roomId: string, from: Date, to: Date): Promise<Booking[] | null>;
-  set(roomId: string, from: Date, to: Date, bookings: Booking[]): Promise<void>;
+  lookup(roomId: string, from: Date, to: Date): Promise<CacheLookup>;
+  store(token: string | null, bookings: Booking[]): Promise<void>;
   invalidateRoom(roomId: string): Promise<void>;
 }

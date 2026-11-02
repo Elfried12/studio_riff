@@ -25,3 +25,5 @@ automatique des requêtes.
 - `GET /rooms/:id/bookings` sans `from`/`to` valides renvoie 400 (non listé au contrat,
   mais refuser une période absente vaut mieux que deviner une semaine).
 - Les dates sont renvoyées sans millisecondes (`2026-11-04T14:00:00Z`), comme dans le sujet.
+
+

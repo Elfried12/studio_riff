@@ -21,14 +21,14 @@ export class GetRoomSchedule {
     const to = parseDate(toRaw, "to");
     if (from >= to) throw new ValidationError("INVALID_RANGE", "from doit être antérieur à to");
 
-    const cached = await this.cache.get(roomId, from, to);
+        const { bookings: cached, token } = await this.cache.lookup(roomId, from, to);
     if (cached) return cached;
 
     const room = await this.repos.rooms.findById(roomId);
     if (!room) throw new NotFoundError("ROOM_NOT_FOUND", `Salle ${roomId} introuvable`);
 
     const bookings = await this.repos.bookings.findActiveByRoomBetween(roomId, from, to);
-    await this.cache.set(roomId, from, to, bookings);
+    await this.cache.store(token, bookings);
     return bookings;
   }
 }

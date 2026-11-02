@@ -1,11 +1,13 @@
 import { buildApp } from "./app.js";
 import { createPool } from "./infra/db.js";
 import { SystemClock } from "./infra/system-clock.js";
-import { NullScheduleCache } from "./infra/null-schedule-cache.js";
+import { createValkeyClient } from "./infra/valkey-client.js";
+import { ValkeyScheduleCache } from "./infra/valkey-schedule-cache.js";
 
 const pool = createPool();
+const valkey = createValkeyClient();
 const app = buildApp(
-  { pool, clock: new SystemClock(), cache: new NullScheduleCache() }, // Valkey branché à l'étape 6
+  { pool, clock: new SystemClock(), cache: new ValkeyScheduleCache(valkey) },
   { logger: true },
 );
 
@@ -15,6 +17,7 @@ await app.listen({ port, host: "127.0.0.1" });
 const shutdown = async () => {
   await app.close();
   await pool.end();
+  valkey.disconnect();
   process.exit(0);
 };
 process.on("SIGINT", shutdown);

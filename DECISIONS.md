@@ -16,3 +16,12 @@ automatique des requêtes.
 - Une réservation dans le passé est refusée (400 SLOT_IN_PAST).
 - Codes HTTP : règle de forme (créneau) → 400 ; conflit avec l'état (chevauchement,
   maintenance, limite, double annulation) → 409.
+
+## Couche HTTP
+- Le handler valide uniquement la forme du JSON (schéma Fastify) et délègue au cas d'usage.
+- Correspondance erreurs → statuts dans `http/error-handler.ts` :
+  ValidationError → 400, NotFoundError → 404, ConflictError → 409.
+- Corps d'erreur : `{ "error": "<CODE>", "message": "…" }`.
+- `GET /rooms/:id/bookings` sans `from`/`to` valides renvoie 400 (non listé au contrat,
+  mais refuser une période absente vaut mieux que deviner une semaine).
+- Les dates sont renvoyées sans millisecondes (`2026-11-04T14:00:00Z`), comme dans le sujet.

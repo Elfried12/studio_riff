@@ -1,0 +1,26 @@
+# Dépendances
+node_modules/
+
+# Variables d'environnement (secrets) : seul .env.example est versionné
+.env
+.env.*
+!.env.example
+
+# Sauvegardes produites par backup.sh
+backups/
+*.dump
+
+# Builds et rapports de tests
+dist/
+coverage/
+*.tsbuildinfo
+
+# Logs
+*.log
+npm-debug.log*
+
+# Éditeurs et système
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

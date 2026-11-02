@@ -1,0 +1,29 @@
+{
+  "name": "studio-riff",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "API de réservation de salles de répétition",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "start": "tsx src/server.ts",
+    "migrate": "tsx scripts/migrate.ts",
+    "seed": "tsx scripts/seed.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:unit": "vitest run tests/unit",
+    "test:http": "vitest run tests/http"
+  },
+  "dependencies": {
+    "fastify": "^5.12.8",
+    "iovalkey": "^0.4.0",
+    "pg": "^8.23.1"
+  },
+  "devDependencies": {
+    "@types/node": "^24.19.2",
+    "@types/pg": "^8.23.1",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.5"
+  }
+}
